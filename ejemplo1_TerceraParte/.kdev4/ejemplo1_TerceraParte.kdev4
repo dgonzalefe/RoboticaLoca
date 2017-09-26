@@ -1,0 +1,33 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00*\x00e\x00j\x00e\x00m\x00p\x00l\x00o\x001\x00_\x00T\x00e\x00r\x00c\x00e\x00r\x00a\x00P\x00a\x00r\x00t\x00e)
+
+[CMake]
+Build Directory Count=3
+Current Build Directory Index=2
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=/home/svenminds/Escritorio/ejemplo1_TerceraParte
+Build Type=
+CMake Binary=/usr/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=/usr/local
+
+[CMake][CMake Build Directory 1]
+Build Directory Path=/home/svenminds/Escritorio/RoboticaLoca/ejemplo1_TerceraParte/build
+Build Type=Debug
+CMake Binary=/usr/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=
+
+[CMake][CMake Build Directory 2]
+Build Directory Path=/home/svenminds/Escritorio/RoboticaLoca/ejemplo1_TerceraParte
+Build Type=Debug
+CMake Binary=/usr/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=/usr/local
+
+[Project]
+VersionControlSupport=kdevgit
