@@ -1,69 +1,80 @@
 #include "ejemplo1.h"
 
-
-
-
-ejemplo1::ejemplo1(): Ui_Counter() {
-    
-    
-    ///*****////
-
-    setupUi(this);
-    show();
-    valor=0;
-    mythread = std::move(std::thread(&myqtimer::run, myqtimer(),std::bind(&ejemplo1::signal,this)));
-    connect(buttonStart,SIGNAL(clicked()),this,SLOT(doButton()));
-    connect(buttonRestart, SIGNAL(clicked()),this,SLOT(restartCounter()));
-    
+ 
+ejemplo1::ejemplo1(): Ui_Counter()
+{
+  setupUi(this);
+  num=0;
+  tiempo=1000;
+  verticalSlider->setMinimum(1);
+  verticalSlider->setMaximum(16);
+  verticalSlider->setValue(verticalSlider->maximum()/2);
+  
+  
+  show();
+  
+  mythread = std::move(std::thread(&hebras::run, hebras(),std::bind(&ejemplo1::doLCDnumber,this)));
+  
+  connect(button, SIGNAL(clicked()),this,SLOT(doButton()));
+  connect(restart, SIGNAL(clicked()),this,SLOT(restartContador()));
+  connect(verticalSlider, SIGNAL(actionTriggered(int)),this,SLOT(frecuencia()));
+  connect(verticalSlider, SIGNAL(sliderPressed()),this,SLOT(frecuencia()));
+ 
 }
 
 ejemplo1::~ejemplo1(){
-    
-     mythread.detach();
-     
+  mythread.detach();
 }
 
-void ejemplo1::doButton(){
+void ejemplo1::doButton()
+{
+	
+  if(!hilo.getparar()){
+    hilo.setparar(true);
+    button->setText("START");
+  }
+  else{
+   hilo.setparar(false);
+  button->setText("STOP");
+  cv.notify_all();
+  }
+  
+}
+
+void ejemplo1::restartContador()
+{
+  
+num=0;
+lcdNumber->display(num);
+
+
+}
+
+
+ void ejemplo1::doLCDnumber()
+{
     
-    if(!cont.getStop()){
-        cont.setStop(true);
-        buttonStart->setText("START");
-	qDebug() << "Cronometro parado";
-    }
-    else{
-        cont.setStop(false);
-        buttonStart->setText("STOP");
-        condition.notify_all();
-	qDebug() << "Cronometro reanudado";
-    }
+   std::unique_lock<std::mutex> lk(cv_m); 
+   
+   while(hilo.getparar())
+      cv.wait(lk);
+   
+   
+   num++;
+   lcdNumber->display(num);
+   std::this_thread::sleep_for(std::chrono::milliseconds(tiempo));
+     
+}  
+
+void ejemplo1::frecuencia()
+{
+   int f;
+   f=verticalSlider->value();
+   tiempo=4000/f;
+   lcdNumber_F->display(f);
   
 }
 
 
-void ejemplo1::restartCounter(){
-    
-    valor=0;
-    lcdNumber->display(valor);
-    qDebug() << "Cronometro reiniciado";
-
-}
-
-
- void ejemplo1::signal(){
-    
-   std::unique_lock<std::mutex> lk(condition_mutex); 
-   
-   while(cont.getStop())
-        lcdNumber->display(valor);
-        condition.wait(lk);
-   
-   
-   valor++;
-   lcdNumber->display(valor);
-    std::this_thread::sleep_for(std::chrono::milliseconds(tiempo));
- 
-    
-    
-} 
 
 

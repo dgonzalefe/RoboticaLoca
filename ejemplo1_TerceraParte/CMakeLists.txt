@@ -9,14 +9,14 @@ SET ( SOURCES
   ${SOURCES}
   ejemplo1.cpp
   main.cpp
-  myqtimer.cpp
+  hebras.cpp
  )
 
 # Headers set
 SET ( HEADERS
   ${HEADERS}
   ejemplo1.h
-  myqtimer.h
+  hebras.h
 )
 
 ADD_DEFINITIONS(-std=c++14)

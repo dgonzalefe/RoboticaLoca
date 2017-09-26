@@ -8,4 +8,5 @@ int main(int argc, char** argv)
     ejemplo1 foo;
     foo.show();
     return app.exec();
+    
 }
