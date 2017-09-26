@@ -28,11 +28,13 @@ void ejemplo1::doButton(){
     if(!cont.getStop()){
         cont.setStop(true);
         buttonStart->setText("START");
+	qDebug() << "Cronometro parado";
     }
     else{
         cont.setStop(false);
         buttonStart->setText("STOP");
         condition.notify_all();
+	qDebug() << "Cronometro reanudado";
     }
   
 }
@@ -42,17 +44,18 @@ void ejemplo1::restartCounter(){
     
     valor=0;
     lcdNumber->display(valor);
+    qDebug() << "Cronometro reiniciado";
 
 }
 
 
  void ejemplo1::signal(){
     
-   //std::unique_lock<std::mutex> lk(condition_mutex); 
+   std::unique_lock<std::mutex> lk(condition_mutex); 
    
    while(cont.getStop())
         lcdNumber->display(valor);
-       //condition.wait(lk);
+        condition.wait(lk);
    
    
    valor++;
