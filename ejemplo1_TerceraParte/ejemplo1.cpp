@@ -60,7 +60,7 @@ void ejemplo1::restartCounter(){
    
    valor++;
    lcdNumber->display(valor);
-   usleep(1000000);
+   //usleep(1000000);
  
     
     
